@@ -1,0 +1,32 @@
+.ui-widget {
+    font-family: font-family: 'Raleway', sans-serif;
+    font-size: 20pt;
+}
+
+.ui-widget-content {
+    background: #ffffff;
+    opacity: 0.9;
+    border: 1px solid #cdcdcd;
+    color: #222222;
+    font-size: 16pt;
+    vertical-align: middle;
+}
+
+.ui-dialog {
+    min-height: 300px;
+    min-width: 400px;
+}
+
+#success {
+    padding: 0;
+    margin: 0;
+}
+
+.ui-dialog-titlebar {
+    background: #b5c8cc;
+    border: 0;
+    color: #fff;
+    font-weight: normal;
+    text-align: center;
+}
+

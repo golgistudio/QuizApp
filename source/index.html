@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width"/>
+    <title>QuizApp</title>
+
+    <!-- Reset  -->
+    <link rel="stylesheet" href="styles/reset.css">
+    <!-- Font  -->
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+    <!-- Dependencies  -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css"/>
+
+    <!-- Quiz App files  -->
+    <link rel="stylesheet" href="styles/main.css">
+
+
+</head>
+<body>
+<header>
+    <H1>Select a quiz.... </H1>
+</header>
+
+<div>
+
+    <!-- This displays available quizzes  -->
+    <!-- This is replaced with the template 'quizTemplate' below  -->
+    <div id="quizSelection">&nbsp;</div>
+
+</div>
+
+<!-- Dependencies  -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="libs/json2.js"></script>
+<script type="text/javascript" src="libs/amplify.min.js"></script>
+<script type="text/javascript" src="libs/dust-full.min.js"></script>
+
+<!-- Quiz App files  -->
+<script type="text/javascript" src="data/availableQuizzes.js"></script>
+<script type="text/javascript" src="scripts/config.js"></script>
+<script type="text/javascript" src="scripts/app.js"></script>
+
+<!-- Templates - This template is used to display available quizzes  -->
+<script type="text/javascript"  id="quizTemplate">
+    {title}
+    {#quizzes}
+    <div id="quizTitle">
+            <img src={image} class="quizThumb"/>
+    <br>
+    {name} <br>  <br>
+    {description} <br>  <br>
+    <input type="submit" class="startQuiz" value="Start Quiz" id={id}>
+    </div>
+
+    {/quizzes}
+</script>
+
+
+
+
+</body>
+</html>

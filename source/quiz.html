@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width"/>
+    <title>Quiz App</title>
+
+    <!-- reset   -->
+    <link rel="stylesheet" href="styles/reset.css">
+    <!-- font   -->
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Noto+Sans'  type='text/css'>
+    <!-- dependencies   -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css"/>
+
+    <!-- Quiz App files  -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dialog.css">
+
+
+</head>
+<body>
+
+<header>
+    <a href="index.html">Home</a>
+    <br> <br> <br>
+    <H1 id="quizCaption">Quiz</H1>
+</header>
+
+<div id="quizCard">&nbsp;
+    <!-- This displays the question  -->
+    <!-- This is replaced with the template 'questionTemplate' below  -->
+    <div id="questionArea">
+
+    </div>
+
+    <!-- This displays answer choices  -->
+    <!-- This is replaced with the template 'questionTemplate' below  -->
+    <div id = "choiceArea">
+
+    </div>
+
+
+   <div id="trackingArea">
+       <hr>
+       <div class="trackingElement">
+       <a href="#" id="prev" class="pn-nav">Prev</a>
+       </div>
+       <div class="trackingElement">
+       <ul id="progress_circles">
+
+       </ul>
+       </div>
+       <div class="trackingElement">
+       <a href="#" id="next" class="pn-nav">Next</a>
+       </div>
+   </div>
+
+
+    <div id="results" title="Basic dialog">   </div>
+
+    <div id="quizComplete" title="Basic dialog">
+
+    </div>
+</div>
+
+<!-- dependencies   -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="libs/json2.js"></script>
+<script type="text/javascript" src="libs/amplify.min.js"></script>
+<script type="text/javascript" src="libs/dust-full.min.js"></script>
+
+<!-- Quiz App data files  -->
+<script type="text/javascript" src="data/bridgeQuizData.js"></script>
+<script type="text/javascript" src="data/herbQuizData.js"></script>
+
+<!-- Quiz App constants   -->
+<script type="text/javascript" src="scripts/config.js"></script>
+
+<!-- Quiz App application files  -->
+<script type="text/javascript" src="scripts/quizEngine.js"></script>
+<script type="text/javascript" src="scripts/quizManager.js"></script>
+<script type="text/javascript"  id="questionImageTemplate">
+    <div id="quizQuestionWithImage">
+            <img src={image} class="quizCardThumb"/>
+            <br>
+            <br>
+            <div> {question} </div>
+     </div>
+</script>
+<script type="text/javascript"  id="questionTemplate">
+    <div id="quizQuestion">
+
+            <div> {question} </div>
+    </div>
+</script>
+<script type="text/javascript"  id="choiceTemplate">
+    {#choices}
+    <div id="quizChoice">
+
+            <input type="submit" class="quizChoiceControl" value="{description}" id={id}>
+    </div>
+
+    {/choices}
+</script>
+<script type="text/javascript"  id="choiceImageTemplate">
+    {#choices}
+    <div id="quizChoiceWithImage">
+            <img src={image} class="choiceThumb"/>
+            <input type="submit" class="imageChoiceControl" value="{description}" id={id}>
+    </div>
+
+    {/choices}
+</script>
+
+
+</body>
+</html>

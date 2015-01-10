@@ -1,0 +1,299 @@
+/*****************
+* {
+    outline: red 1px solid;
+}
+****************/
+
+
+/******************
+**** Common
+*******************/
+html {
+    font-family: 'Raleway', sans-serif;
+}
+
+*:focus
+{
+    outline: none;
+}
+
+body {
+   /* background-color: darkgray;    */
+    background-image: url("../images/brushed-metal-background-original3-1024x948.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+/***************
+** Index.html
+***************/
+ header {
+     margin-top: 10px;
+     margin-left: 20px;
+     margin-bottom: 20px;
+ }
+ H1 {
+     font-size: 36pt;
+ }
+
+#quizSelection {
+    text-align: center;
+    vertical-align: middle;
+    margin: 10px;
+    height: 80%;
+}
+
+#quizSelection:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em; /* Adjusts for spacing */
+
+    /* For visualization
+    background: #808080; width: 5px;
+    */
+}
+
+/* quizTemplate elements */
+#quizTitle {
+    display: inline-block;
+    background-color: white;
+    border: 2px solid darkgray;
+    width: 200px;
+    height: 350px;
+    margin: 10px;
+    text-align: center;
+
+    -webkit-box-shadow: 0 8px 6px -6px black;
+    -moz-box-shadow: 0 8px 6px -6px black;
+    box-shadow: 0 8px 6px -6px black;
+
+}
+
+.quizThumb {
+    width: 200px;
+    height: 200px;
+}
+
+
+.startQuiz {
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+/************************
+*********  Quiz
+************************/
+
+#quizCard {
+    background-color: #ebebeb;
+    width: 80%;
+    margin-left: 10%;
+    text-align: center;
+    border-radius: 20px;
+    border: 2px solid darkgray;
+}
+
+
+
+#questionArea {
+    text-align: center;
+}
+
+#choiceArea {
+    margin-top: 20px;
+}
+
+#trackingArea {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: inline-block;
+    text-align: center;
+}
+
+.trackingElement {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+/** questionImageTemplate */
+
+#quizQuestionWithImage {
+    display: inline-block;
+}
+
+.quizCardThumb {
+    width: 500px;
+    height: 300px;
+    border: 2px solid darkgray;
+
+}
+
+/** questionTemplate **/
+#quizQuestion {
+    font-size: 16pt;
+}
+
+/** choiceTemplate */
+
+
+.quizChoice {
+    min-width: 100px;
+}
+
+.quizChoiceControl {
+    width: 80%;
+    text-align: center;
+    height: 30px;
+    margin-top: 10px;
+    border:0 none;
+    cursor:pointer;
+    background-color: #ced4d5;
+    border-radius: 20px;
+}
+
+.quizChoiceControl:hover {
+    background-color: #ffe0b9;
+    border: 3px solid #ffb261;
+}
+
+
+
+/* choiceImageTemplate */
+
+#quizChoiceWithImage {
+    display: inline-block;
+    text-align: center;
+    min-width: 100px;
+    margin-top: 20px;
+}
+
+.imageChoiceControl {
+
+    min-height: 30px;
+    background-color: #ced4d5;
+    width: 80%;
+    text-align: center;
+    margin-top: 10px;
+    border:0 none;
+    cursor:pointer;
+    border-radius: 30px;
+
+
+}
+
+.imageChoiceControl:hover {
+    background-color: #ffe0b9;
+    border: 3px solid #ffb261;
+}
+
+.choiceThumb {
+    width: 150px;
+    height: 150px;
+    text-align: center;
+
+}
+
+
+
+
+/*** Progress dots - Begin */
+#progress_circles {
+    padding: 0;
+    margin: 0;
+}
+
+#progress_circles li{
+    list-style: none;
+    display: inline-block;
+    background: #ccc;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+#progress_circles li.incorrect{
+    background: #fa160f;
+}
+
+#progress_circles li.correct{
+    background: #17fa23;
+}
+
+#progress_circles li.selected{
+    border: 2px solid #000000;;
+
+}
+
+
+/* copied from cssdeck.com/labs/rounded-previous-and-next-arrows  */
+.pn-nav {
+    color: #878b8a;
+    display: inline-block;
+    font: normal bold 12pt Arial,sans-serif;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    width: auto;
+    padding: 0.5em 1.5em;
+}
+
+#next { text-align: right }
+
+.pn-nav:before,
+.pn-nav:after {
+    background: #878b8a;
+    -moz-border-radius: 0.25em;
+    -webkit-border-radius: 0.25em;
+    border-radius: 0.25em;
+    content: "";
+    display: block;
+    height: 0.5em;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 1em;
+}
+
+#prev:before,
+#prev:after { left: 0 }
+
+.pn-nav:before {
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.pn-nav:after {
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+#prev:after,
+#next:before { margin-top: -.36em }
+
+
+.pn-nav:hover:before,
+.pn-nav:hover:after,
+.pn-nav:focus:before,
+.pn-nav:focus:after{ background: #ffb261
+}
+
+.pn-nav:hover,
+.pn-nav:focus {
+    color: #ffb261
+}
+
+/*** Progress dots - Done */
+
+
+
