@@ -10,9 +10,24 @@ function QuizTracker () {
     var lastQuestionID_;
 
     var questionCount = 0;
-    var currentQuestionData_;
+    var currentQuestionID_;
     var answers_;
     var correctArray;
+
+    /**
+     *
+     */
+    function updateLastQuestionID() {
+        "use strict";
+        if (currentQuestionID_ !== undefined) {
+            lastQuestionID_ = currentQuestionID_;
+        }
+    }
+
+    /**
+     * Public Methods
+     *
+     */
 
     /**
      *
@@ -31,11 +46,7 @@ function QuizTracker () {
         }
     };
 
-    function updateLastQuestionID() {
-        if (currentQuestionData_ !== undefined) {
-            lastQuestionID_ = currentQuestionData_.answer;
-        }
-    } ;
+
 
     /**
      *
@@ -84,34 +95,22 @@ function QuizTracker () {
 
     /**
      *
-     * @param questionData
+     * @param idValue
      * @returns {*}
      */
-    this.currentQuestionData = function (questionData) {
+    this.currentQuestionID = function (idValue) {
         "use strict";
 
-        if (questionData !== undefined) {
+        if (idValue !== undefined) {
            updateLastQuestionID();
-            currentQuestionData_ = questionData;
+            currentQuestionID_ = idValue;
         }
         else {
-            return(currentQuestionData_);
+            return(currentQuestionID_);
         }
     };
 
-    /**
-     *
-     * @returns {bridgeQuizTestData.choices|*|herbQuiz.choices|bridgeQuiz.choices|choices}
-     */
-    this.choices = function () {
-        "use strict";
-        return currentQuestionData_.choices;
-    }  ;
 
-    this.answer = function() {
-        "use strict";
-        return currentQuestionData_.answer;
-    };
 
     /**
      *
@@ -148,11 +147,7 @@ function QuizTracker () {
 
     this.isQuizComplete = function () {
 
-        if (currentQuestionIndex_ === (questionCount - 1) )    {
-            return true;
-        } else {
-            return false;
-        }
+        return currentQuestionIndex_ === (questionCount - 1);
     } ;
 }
 
