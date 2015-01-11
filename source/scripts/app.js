@@ -5,20 +5,23 @@
 /*global runDust:false */
 /*global availableQuizzes:false */
 
-
-
-/** Start the quiz */
+/**
+ * Launch the quiz based in the id of the quiz selected
+ * id should be defined in the availableQuizzes data and
+ * set on the [start quiz] button in the quizTemplate defined in
+ * the index.html file
+ * @param event
+ */
 function startQuiz(event) {
     "use strict";
 
     event.preventDefault();
 
     // Store the quiz id
-    amplify.store(CONFIG.get("ID_STORE"), event.currentTarget.id);
+    amplify.store(QUIZ_CONFIG.get("ID_STORE"), event.currentTarget.id);
 
     //load the quiz page
-    window.location.replace("quiz.html");
-
+    window.location.replace(QUIZ_CONFIG.get('QUIZ_HTML'));
 }
 
 /**
@@ -30,21 +33,24 @@ function renderAvailableQuizzes(out) {
     $("#quizSelection").html(out);
 }
 
-/** Using dust display the available quizxes  */
+/**
+ * Using dust display the available quizxes
+ *
+ * */
 function displayAvailableQuizzes() {
     "use strict";
 
     var templateName = "title";  // name that dust uses to store the compiled template
 
     // Get the quiz div
-    var source = $(CONFIG.get("AVAILABLE_QUIZZES_TEMPLATE")).html();
+    var source = $(QUIZ_CONFIG.get("AVAILABLE_QUIZZES_TEMPLATE")).html();
 
     // update the template
     runDust(source, templateName, renderAvailableQuizzes, availableQuizzes);
 }
 
 /**
-Main routine called at runtime
+ * Main routine called when the page is ready
  */
 function main() {
 
@@ -61,9 +67,11 @@ function main() {
 
 }
 
+/**
+ * Launch code - encapsulate all code in the main function
+ */
 $(document).ready(function () {
     "use strict";
     // Main function
     main();
-
 });

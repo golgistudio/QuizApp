@@ -11,14 +11,8 @@
 /*global amplify:false */
 /*global alert:false */
 
-var currentQuestionIndex = 0;
-var lastQuestionID;
 var quizEngine;
-var numQuestions = 0;
-var currentQuestionData;
-var answers;
-var numRight = 0;
-
+var quizTracker;
 
 /**
  *
@@ -45,6 +39,14 @@ function initializeQuiz(id) {
     return quiz;
 }
 
+function initializeQuizTracker(quizEngine) {
+
+    quizTracker = new QuizTracker();
+
+    quizTracker.numQuestions(quizEngine.numQuestions());
+    return quizTracker;
+}
+
 /**
  *
  * @param event
@@ -53,11 +55,12 @@ function showNextQuestion(event) {
     "use strict";
     void (event);  // clear up unused variable warning
 
-    if (currentQuestionIndex <= (numQuestions - 2)) {
-        lastQuestionID = currentQuestionData.answer;
-        currentQuestionIndex ++;
-        showQuestionByIndex(currentQuestionIndex);
+    var questionIndex = quizTracker.nextQuestion();
+
+    if (questionIndex !== undefined) {
+        showQuestionByIndex(questionIndex);
     }
+
 }
 /**
  *
@@ -66,29 +69,14 @@ function showNextQuestion(event) {
 function showPrevQuestion(event) {
     "use strict";
     void (event);  // clear up unused variable warning
-    if (currentQuestionIndex > 0 ) {
-        lastQuestionID = currentQuestionData.answer;
-        currentQuestionIndex--;
-        showQuestionByIndex(currentQuestionIndex);
+
+    var questionIndex = quizTracker.prevQuestion();
+
+    if (questionIndex !== undefined) {
+        showQuestionByIndex(questionIndex);
     }
 }
-/**
- *
- * @param stringToCheck
- * @returns {boolean}
- */
-function isStringEmptyOrNull(stringToCheck) {
-    "use strict";
-    var isEmptyOrNull = true;
 
-    if (stringToCheck !== undefined) {
-        if (stringToCheck.trim().length > 0) {
-            isEmptyOrNull = false;
-        }
-    }
-
-    return isEmptyOrNull;
-}
 /**
  *
  * @param currentQuestion
@@ -142,24 +130,26 @@ function showChoices(currentQuestion){
  */
 function showQuestionByIndex(index){
     "use strict";
-    currentQuestionData = quizEngine.getQuestion(index);
+    var currentQuestionData = quizEngine.getQuestion(index);
     clearQuestion();
     showQuestion(currentQuestionData);
     showChoices(currentQuestionData);
 
-    // Event handler for start quiz button
+    // Event handler for choices
     $(".quizChoiceControl").click(function (event) {
         event.preventDefault();
         choiceSelected(event);
     });
 
-    // Event handler for start quiz button
+    // Event handler for choices
     $(".imageChoiceControl").click(function (event) {
         event.preventDefault();
         choiceSelected(event);
     });
 
-    showSelectedProgressCircle(lastQuestionID, currentQuestionData.answer);
+    quizTracker.currentQuestionData(currentQuestionData);
+
+    showSelectedProgressCircle(quizTracker.lastQuestionID(), currentQuestionData.answer);
 
 }
 
@@ -200,54 +190,37 @@ function choiceSelected(event) {
     "use strict";
 
     event.preventDefault();
-    //event.currentTarget.id
 
-    var isCorrect;
+    var isCorrect = false;
 
-    if (event.currentTarget.id === currentQuestionData.answer) {
+    var  answer = quizTracker.answer();
+    var  choices = quizTracker.choices();
+    var  currentQuestionIndex = quizTracker.currentQuestionIndex();
+
+    if (event.currentTarget.id === answer) {
         isCorrect = true;
-
-        numRight++;
-    } else {
-
-        isCorrect = false;
     }
 
 
     var selectedChoiceText = "";
 
-    for (var i = 0 ; i < currentQuestionData.choices.length; i++) {
+    for (var i = 0 ; i < choices.length; i++) {
 
-        var choice = currentQuestionData.choices[i];
+        var choice = choices[i];
         if (event.currentTarget.id === choice.id) {
             selectedChoiceText = choice.description;
         }
     }
 
-    answers[currentQuestionIndex] = event.currentTarget.id;
+    quizTracker.recordChoice(currentQuestionIndex,event.currentTarget.id, isCorrect )
 
-    updateProgressCircle(currentQuestionData.answer, isCorrect, selectedChoiceText) ;
-
-    lastQuestionID = currentQuestionData.answer;
-    currentQuestionIndex ++;
+    updateProgressCircle(answer, isCorrect, selectedChoiceText) ;
 
     showResult(isCorrect, selectedChoiceText);
 
 }
 
-/**
- *
- * @param milliseconds
- */
-function sleep(milliseconds) {
-    "use strict";
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds){
-            break;
-        }
-    }
-}
+
 
 /**
  *
@@ -256,12 +229,15 @@ function sleep(milliseconds) {
  */
 function quizComplete(numRight, numQuestions) {
     "use strict";
+
+    var numRight = quizTracker.numRight();
+    var numQuestions = quizTracker.numQuestions();
+
     var innerHTML = "You answered " + numRight + " questions out of " + numQuestions + " correctly";
     var waitTime = 3000;
-    var statDialog = createDialog(waitTime, "Quiz complete");
+    var statDialog = createDialog(waitTime, "Quiz complete", false, 'quizComplete');
     statDialog.dialog("open");
     statDialog.html(innerHTML);
-
 }
 
 /**
@@ -274,10 +250,11 @@ function onDialogClose(event, ui) {
     void (event);  // clear up unused variable warning
     void(ui);  // clear up unused variable warning
 
-    if (currentQuestionIndex === numQuestions)  {
-        quizComplete(numRight, numQuestions);
+
+    if (quizTracker.isQuizComplete())  {
+        quizComplete();
     }   else {
-        showQuestionByIndex(currentQuestionIndex) ;
+        showNextQuestion(event);
     }
 }
 
@@ -298,69 +275,59 @@ function showResult(isCorrect, answer) {
         titleText = "Incorrect";
     }
 
-    var innerHTML = "You answered... <br><br> " + answer;
-
-    var statDialog = createDialogWithCloseEvent(waitTime, titleText);
+    var statDialog = createDialog(waitTime,  titleText, true, 'results');
+    if (isCorrect) {
+        $('.ui-dialog-titlebar').css('background', "green");
+    } else {
+        $('.ui-dialog-titlebar').css('background', "red");
+    }
     statDialog.dialog("open");
+
+    var innerHTML = "You answered... <br><br> " + answer;
     statDialog.html(innerHTML);
+
 }
 /**
  *
  * @param waitTime
  * @param titleText
+ * @param createClose
+ * @param className
+ * @param isCorrect
  * @returns {*|jQuery}
  */
-function createDialogWithCloseEvent(waitTime, titleText) {
+function createDialog(waitTime,  titleText, createClose, className) {
     "use strict";
-    return $('#results').dialog({
+    var titleText;
+
+    var selectorID = "#" + className;
+
+    var statDialog = $(selectorID).dialog({
         resizable: false,
         autoOpen: false,
         show: "blind",
         hide: "blind",
         modal: true,
         title: titleText,
-        dialogClass: 'results',
+        dialogClass: className,
         open: function (event, ui) {
            void(event);
             void (ui);
            setTimeout(function () {
                 $('#results').dialog('close');
             }, waitTime);
-       },
-       close: function( event, ui ) {
-           onDialogClose(event, ui);
        }
-
     });
 
+    if (createClose) {
+        statDialog.on("dialogclose",function( event, ui ) {
+            onDialogClose(event, ui);
+        } )
+    }
 
+    return statDialog;
 }
-/**
- *
- * @param waitTime
- * @param titleText
- * @returns {*|jQuery}
- */
-function createDialog(waitTime, titleText) {
-    "use strict";
-    return $('#quizComplete').dialog({
-        resizable: false,
-        autoOpen: false,
-        show: "blind",
-        hide: "blind",
-        modal: true,
-        title: titleText,
-        dialogClass: 'quizComplete',
-        open: function (event, ui) {
-            void (event);   // clear up unused variable warning
-            void(ui);  // clear up unused variable warning
-            setTimeout(function () {
-                $('#quizComplete').dialog('close');
-            }, waitTime);
-        }
-    });
 
-}
 
 /**
  *
@@ -414,16 +381,34 @@ function addProgressCircles(numQuestions) {
     }
 }
 
-
-//************************************
-// Main routine called at runtime
-//************************************
 /**
- *
+ * Initialize the event handlers for previous/next buttons
+ */
+
+function initializeEventHandlers() {
+
+    // Event handler for the previous buttons
+    $("#prev").click(function (event) {
+        event.preventDefault();
+        showPrevQuestion(event);
+    });
+
+    // Event handler for the next buttons
+    $("#next").click(function (event) {
+        event.preventDefault();
+        showNextQuestion(event);
+    });
+}
+
+
+/**
+ *  Main routine
  */
 function main() {
 
     "use strict";
+
+    initializeEventHandlers();
 
     // Retrieve the quiz id selected in the previous page
     var id = amplify.store(QUIZ_CONFIG.get("ID_STORE"));
@@ -435,35 +420,20 @@ function main() {
 
     // initialize the quiz for the selected quiz
     quizEngine = initializeQuiz(id);
+    quizTracker = initializeQuizTracker(quizEngine);
 
+    // set the caption for the quiz that is being played.
     $("#quizCaption").text(quizEngine.getTitle());
 
-    numQuestions = quizEngine.numQuestions();
+    // Add a progress circle for each question
+    addProgressCircles(quizEngine.numQuestions());
 
-    answers = new Array(numQuestions);
-
-    addProgressCircles(numQuestions);
-
-    // Event handler for start quiz button
-    $("#prev").click(function (event) {
-        event.preventDefault();
-        showPrevQuestion(event);
-    });
-
-    // Event handler for start quiz button
-    $("#next").click(function (event) {
-        event.preventDefault();
-        showNextQuestion(event);
-    });
-
-    lastQuestionID = undefined;
-    currentQuestionIndex = 0;
-
-    showQuestionByIndex(0);
+    showQuestionByIndex(quizTracker.currentQuestionIndex());
 }
 
 /**
- *
+ *  Code that is executed when the page is ready
+ *  All logic should be encapsulated in the main function
  */
 $(document).ready(function () {
     "use strict";

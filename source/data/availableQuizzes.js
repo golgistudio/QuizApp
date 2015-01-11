@@ -1,9 +1,17 @@
 /** @module availableQuizzes*/
-/**
- * Created by laurie on 12/20/2014.
- */
+
 
 /**
+ * Quizzes that are available
+ * Each quiz listed here is displayed as a
+ * quiz card on the initial page
+ *
+ * The id needs to have the following properties:
+ *  ~ unique
+ *  ~ single word - no spaces
+ * The id is set on the button that launches the quiz
+ * to identify which quiz was selected.
+ *
  */
 var availableQuizzes = {
 

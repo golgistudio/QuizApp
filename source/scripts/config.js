@@ -12,7 +12,8 @@ var QUIZ_CONFIG = (function() {
     "use strict";
     var privateData = {
         'ID_STORE': "golgistudio-quiz-id",
-        'AVAILABLE_QUIZZES_TEMPLATE': '#quizTemplate'
+        'AVAILABLE_QUIZZES_TEMPLATE': '#quizTemplate',
+        'QUIZ_HTML': 'quiz.html'
     };
 
     return {
@@ -37,5 +38,37 @@ function runDust(source, templateName, renderer, data) {
     dust.render(templateName, data, function (err, out) {
         renderer(out);
     });
+}
+
+/**
+ *
+ * @param stringToCheck
+ * @returns {boolean}
+ */
+function isStringEmptyOrNull(stringToCheck) {
+    "use strict";
+    var isEmptyOrNull = true;
+
+    if (stringToCheck !== undefined) {
+        if (stringToCheck.trim().length > 0) {
+            isEmptyOrNull = false;
+        }
+    }
+
+    return isEmptyOrNull;
+}
+
+/**
+ *
+ * @param milliseconds
+ */
+function sleep(milliseconds) {
+    "use strict";
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+            break;
+        }
+    }
 }
 

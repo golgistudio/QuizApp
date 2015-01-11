@@ -285,13 +285,19 @@ body {
 .pn-nav:hover:before,
 .pn-nav:hover:after,
 .pn-nav:focus:before,
-.pn-nav:focus:after{ background: #ffb261
+.pn-nav:focus:after {
+    background: #ffb261
 }
+
 
 .pn-nav:hover,
 .pn-nav:focus {
     color: #ffb261
 }
+
+
+
+
 
 /*** Progress dots - Done */
 
