@@ -59,10 +59,28 @@ function showResult(isCorrect, answer) {
     var resultsSelector = $("#results");
 
     resultsSelector.dialog( "option", "title", titleText );
+    var titleBarSelector = $(".ui-dialog-titlebar");
     if (isCorrect) {
-        $('.ui-dialog-titlebar').css('background', "green");
+
+        /*    Setting the class is working, but the style is not applied
+        if (titleBarSelector.hasClass(".ui-incorrect")) {
+            titleBarSelector.toggleClass(".ui-incorrect");
+        }
+
+        titleBarSelector.toggleClass(".ui-correct");
+        */
+
+        titleBarSelector.css('background', "green");
     } else {
-        $('.ui-dialog-titlebar').css('background', "red");
+
+        /*    Setting the class is working, but the style is not applied
+        if (titleBarSelector.hasClass(".ui-correct")) {
+            titleBarSelector.toggleClass(".ui-correct");
+        }
+
+        titleBarSelector.toggleClass(".ui-incorrect");
+         */
+        titleBarSelector.css('background', "red");
     }
     resultsSelector.dialog("open");
 

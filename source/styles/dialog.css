@@ -1,5 +1,5 @@
 .ui-widget {
-    font-family: font-family: 'Raleway', sans-serif;
+    font-family:  'Raleway', sans-serif;
     font-size: 20pt;
 }
 
@@ -28,6 +28,13 @@
     color: #fff;
     font-weight: normal;
     text-align: center;
+}
+.ui-correct {
+    background: green;
+}
+
+.ui-incorrect {
+    background: red;
 }
 
 

@@ -18,8 +18,22 @@ html {
 }
 
 body {
-   /* background-color: darkgray;    */
-    background-image: url("../images/brushed-metal-background-original3-1024x948.jpg");
+     /* background-color: darkgray;    */
+     background-image: url("../images/brushed-metal-background-original3-1024x948.jpg");
+     background-repeat: no-repeat;
+     background-size: cover;
+ }
+
+body.bridges {
+     /* background-color: darkgray;    */
+     background-image: url("../images/brushed-metal-background-original3-1024x948.jpg");
+     background-repeat: no-repeat;
+     background-size: cover;
+ }
+
+body.herbs {
+    /* background-color: darkgray;    */
+    background-image: url("../images/lime_green_terry_cloth_towel.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -97,7 +111,9 @@ body {
     border: 2px solid darkgray;
 }
 
-
+#quizCard.herbs {
+    background-color: #cbe6cc;
+}
 
 #questionArea {
     text-align: center;
@@ -153,7 +169,12 @@ body {
     border:0 none;
     cursor:pointer;
     background-color: #ced4d5;
+
     border-radius: 20px;
+}
+
+.quizChoiceControl.herbs {
+    background-color: #bdd5c2;
 }
 
 .quizChoiceControl:hover {

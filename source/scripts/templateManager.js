@@ -7,7 +7,7 @@
     *
     * @param currentQuestion
 */
-function showQuestion(currentQuestion) {
+function showQuestion(currentQuestion, quizClassName) {
     "use strict";
 
     var questionTemplateSource;
@@ -33,12 +33,15 @@ function showQuestion(currentQuestion) {
         };
     }
     runDust(questionTemplateSource, "question", renderQuestion, data);
+    if (!($("#quizCard").hasClass(quizClassName))) {
+        $("#quizCard").toggleClass(quizClassName);
+    }
 }
 /**
  *
  * @param currentQuestion
  */
-function showChoices(currentQuestion){
+function showChoices(currentQuestion, quizClassName){
     "use strict";
 
     var choiceTemplateSource;
@@ -49,6 +52,8 @@ function showChoices(currentQuestion){
         choiceTemplateSource = $("#choiceTemplate").html();
     }
     runDust(choiceTemplateSource, "quizChoice", renderChoice, currentQuestion);
+
+    $(".quizChoiceControl").toggleClass(quizClassName);
 }
 
 

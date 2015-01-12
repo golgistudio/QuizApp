@@ -15,6 +15,7 @@
 
 var quizEngine;
 var quizTracker;
+var quizClassName;
 
 /**
  *
@@ -53,8 +54,8 @@ function showQuestionByIndex(index){
     "use strict";
     var currentQuestionData = quizEngine.getQuestion(index);
     clearQuestion();
-    showQuestion(currentQuestionData);
-    showChoices(currentQuestionData);
+    showQuestion(currentQuestionData, quizClassName);
+    showChoices(currentQuestionData, quizClassName);
 
     // Event handler for choices
     $(".quizChoiceControl").click(function (event) {
@@ -110,11 +111,14 @@ function initializeQuiz(id) {
     switch (id) {
         case "bridges":
             quizData = bridgeQuiz;
+            quizClassName = "bridges";
             break;
         case "herbs":
             quizData = herbQuiz;
+            quizClassName = "herbs";
             break;
     }
+    $("body").toggleClass(quizClassName);
     var quiz = new QuizEngine(quizData);
     var title = quiz.getTitle();
     console.log(title);
@@ -158,6 +162,8 @@ function main() {
     "use strict";
 
     initializeEventHandlers();
+
+    $( document ).tooltip();
 
     var waitTime = 2000;
     createDialog(waitTime,  true, 'results');
